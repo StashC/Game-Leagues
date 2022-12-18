@@ -1,0 +1,63 @@
+.MatchCard {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-width: 70%;
+    min-height: 50px;
+    height: 2em;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    background-color: #7289DA;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.MatchCard .PlayerInfo h3{
+    color: white;
+}
+.eloInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: baseline;
+    white-space: nowrap;
+}
+
+#LoserEloInfo {
+    position: absolute;
+    right: 0;
+}
+
+#playerEloInfoText {
+    color: black;
+    font-size: medium;
+}
+.MatchCard .PlayerInfo {
+    height: 100%;
+    margin: 10%;
+}
+#WinnerInfo {
+    position: absolute;
+    left: 0;
+}
+#LoserInfo {
+    position: absolute;
+    right: 0;
+}
+.MatchCard .PlayerInfo h3 {
+    margin: 0px;
+}
+
+
+#winnerEloAdj {
+    color: rgb(47, 182, 47);
+    font-size: x-small;
+}
+
+#loserEloAdj {
+    color: red;
+    font-size: x-small;
+}
+
+
