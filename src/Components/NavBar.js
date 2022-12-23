@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import {} from '../App'
 import './NavBar.css'
 import { AiFillHome } from "react-icons/ai";
+import { logout } from '../Pages/AuthPage';
 
 class NavBar extends Component {
   render() {
@@ -10,10 +11,11 @@ class NavBar extends Component {
         <div className="NavBar">
         <Link to="/"> <AiFillHome id="homeIcon" /> </Link>
             {this.props.leagueName === "" ? (
-                <h2>loading</h2>
+                <h2></h2>
             ) : (<h2>{this.props.leagueName}</h2>) }
         <Link className='textLink' to="/leaderboard"> <h3>Leaderboard</h3></Link>
         <Link className='textLink' to="/matches"> <h3> Matches </h3> </Link>
+        <button id="logoutNavButton" onClick={logout}> Sign Out</button>
       </div>
     )
   }

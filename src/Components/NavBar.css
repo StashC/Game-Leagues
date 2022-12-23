@@ -30,3 +30,7 @@
     color: white;
 }
 
+#logoutNavButton {
+    position: absolute;
+    right: 2%;
+}
