@@ -7,24 +7,31 @@ import MatchCard from '../Components/MatchCard.js';
 import { getPlayerData } from '../App.js';
 
 
+//TODO Sort match history by match time descending.
+
 export const matchContext = createContext({});
 
 function MatchHistory() {
   var matchListComp = null
-  const { matchListRef, players, currLeagueID, } = useContext(leagueContext)
+  const { matchListRef, players, currLeagueID, getMatchesForLeague } = useContext(leagueContext)
 
-  const getMatchesForLeague = async (leagueID) => {
-    const q = query(matchListRef, where("leagueID", "==", "48nZ6PosAQoERw4b09QS"));
-    const data = await getDocs(q)
-    console.log(data)
-    return data
-  }
+  // const getMatchesForLeague = async (leagueID) => {
+  //   const q = query(matchListRef, where("leagueID", "==", "48nZ6PosAQoERw4b09QS"));
+  //   const data = await getDocs(q)
+  //   console.log(data)
+  //   return data
+  // }
   const [leagueMatches, setMatches] = useState([])
 
+  // async function updateMatches() {
+  //   console.log("Called update matches")
+  //   const matchesDoc = await getMatchesForLeague(currLeagueID)
+  //   const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
+  //   setMatches(matches)
+  // }
+
   async function updateMatches() {
-    console.log("Called update matches")
-    const matchesDoc = await getMatchesForLeague(currLeagueID)
-    const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
+    const matches = await getMatchesForLeague(currLeagueID)
     setMatches(matches)
   }
 
@@ -52,7 +59,6 @@ function MatchHistory() {
         } else {
           const winner = getPlayerDataFromList(match.playerTwoID)
           const oldEloWinner = match.oldEloPlayer2
-          console.log(oldEloWinner)
           const loser = getPlayerDataFromList(match.playerOneID)
           const oldEloLoser = match.oldEloPlayer1
           return(

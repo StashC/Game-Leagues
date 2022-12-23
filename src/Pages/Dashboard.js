@@ -7,7 +7,7 @@ import { AuthContext } from "../Auth";
 import './Dashboard.css'
 
 function Dashboard() {
-  const { players, currLeagueID, setCurrLeagueID, playersRef, getPlayers } = useContext(leagueContext);
+  const { players, currLeagueID, setCurrLeagueID, playersRef, getPlayers, getMatchesForLeague } = useContext(leagueContext);
   const { currUser } = useContext(AuthContext)
   
   
@@ -43,14 +43,29 @@ function Dashboard() {
   //TODO add Popup
   const deleteLeague = async (id) => {
     console.log("deletedLeague called")
-    // delete all records of players.
-    const playerIDsToDelete = players.map( (player) => {
+   
+    //delete matches.  Before players is most likely a better Idea,
+    // as matches can reference players, but not vice versa. 
+    const matchesToDelete = await getMatchesForLeague(id)
+    console.log(matchesToDelete)
+    
+    await matchesToDelete.map( async (match) => {
+      const matchRef = doc(db, "match history", match.id)
+      await deleteDoc(matchRef)
+    })
+
+     // delete all records of players.
+     const playerIDsToDelete = players.map( (player) => {
       return player.id
     })
-    await playerIDsToDelete.map( async (player) =>  {
-      const playerRef = doc(db, "players", player.id)
+    await playerIDsToDelete.map( async (id) =>  {
+      const playerRef = doc(db, "players", id)
       await deleteDoc(playerRef)
     })
+
+    //delete selected league
+    const leagueRef = doc(db, "leagues", id)
+    await deleteDoc(leagueRef) 
 
     //update league list, will also set currLeagueID to 
     await getLeagues()
@@ -151,7 +166,12 @@ function Dashboard() {
               <button className="DashButton" onClick={addPlayer}> Add Player </button>
           </div>
           <button className="DashButton" onClick={resetLeague}> Reset Scores</button>
-          <button className="DashButton" onClick={deleteLeague}> Delete League</button>
+          <button className="DashButton"
+           onClick={ () => {
+            console.log("called")
+            deleteLeague(currLeagueID)
+            }}
+            > Delete League</button>
 
         </div>        
       </div>

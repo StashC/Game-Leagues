@@ -44,12 +44,22 @@ function App() {
     setCurrLeagueName(leagueName);
   }
     
+
    // gets the list of players from the db
    const getPlayers = async () => {
     console.log("getPlayersCalled " + currLeagueID)
     const q = query(playersRef, where("leagueID", "==", currLeagueID));
     const data = await getDocs(q)     // below creates a new doc, but replaces id with doc.id
     setPlayers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+  }
+
+  // gets matches for curr league
+  const getMatchesForLeague = async (leagueID) => {
+    const q = query(matchListRef, where("leagueID", "==", leagueID));
+    const matchesDoc = await getDocs(q)
+    const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
+    console.log(matches)
+    return matches
   }
   
   useEffect(() => {
@@ -65,7 +75,7 @@ function App() {
   return(
     <AuthProvider>
       <Router>
-        <leagueContext.Provider value={{ players, setPlayers, currLeagueID, setCurrLeagueID, matchListRef, playersRef, getPlayers }}>
+        <leagueContext.Provider value={{ players, setPlayers, currLeagueID, setCurrLeagueID, matchListRef, playersRef, getPlayers,  getMatchesForLeague}}>
           <div className="App">
             <NavBar leagueName={currLeagueName}/>
             <div className="body">
