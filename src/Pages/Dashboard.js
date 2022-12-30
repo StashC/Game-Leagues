@@ -7,7 +7,7 @@ import { AuthContext } from "../Auth";
 import './Dashboard.css'
 
 function Dashboard() {
-  const { players, currLeagueID, setCurrLeagueID, playersRef, getPlayers, getMatchesForLeague } = useContext(leagueContext);
+  const { players, currLeagueID, setCurrLeagueID, playersRef, getPlayers, getMatchesForLeague, userLeagues, setUserLeagues, selectLeagueComp } = useContext(leagueContext);
   const { currUser } = useContext(AuthContext)
   
   
@@ -22,10 +22,7 @@ function Dashboard() {
     getPlayers()
   }
   
-  
-  const [userLeagues, setUserLeagues] = useState(null)
   const leaguesRef = collection(db, "leagues");
-  var selectLeagueComp = null
   const [newLeagueName, setNewLeagueName] = useState("")
 
   const createLeague = async() => {
@@ -81,10 +78,20 @@ function Dashboard() {
     await updateDoc(playerRef, newFields);
   }  
   
-  const resetLeague = ()  => {
+  const resetLeague = async ()  => {
     players.map( (player) => {
       setPlayerRecord(player.id, 0, 0, 1000)
     })
+
+    const matchesToDelete = await getMatchesForLeague(currLeagueID)
+    console.log(matchesToDelete)
+    
+    await matchesToDelete.map( async (match) => {
+      const matchRef = doc(db, "match history", match.id)
+      await deleteDoc(matchRef)
+    })
+
+    getPlayers()
   }
 
   const getLeagues = async () => {
@@ -103,21 +110,6 @@ function Dashboard() {
     }   
   }
 
-  if(userLeagues != null ) {
-    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem">
-      {userLeagues.empty ? <h3 id="createLeagueHint">Create a League to Get Started</h3> : null}
-      <select className="DashboardSelect" id="SelectCurrLeage"
-        onChange={(event) => {
-          setCurrLeagueID(event.target.value)}}
-        >
-        {userLeagues.map( (league) => {
-          return( <option value={league.id}> {league.leagueName} </option>)
-        })}
-      </select>
-    </div> //LeagueSelectContainer
-  } else {
-    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem"><p>loading...</p> </div>
-  }
 
   useEffect(() => {
     getLeagues()
@@ -131,7 +123,8 @@ function Dashboard() {
             {selectLeagueComp}
           </div>
 
-          <div className='leaderboard'>
+          {/* Players List goes here */}
+          <div className='playerlist'>
             {players.map((player) => {
               return(
                 <PlayerComponent className="Players" key={player.name} name={player.name}
@@ -141,10 +134,7 @@ function Dashboard() {
               );
             })}
          </div>
-          
-          {/* Players List goes here */}
-        </div>
-
+      </div>
         <div id="rightPanel" className="panel">
           <div id="createLeagueContainer">
             <h3>Create League</h3>

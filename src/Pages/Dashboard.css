@@ -3,6 +3,15 @@
     flex-direction: row;
 }
 
+.playerlist {
+    overflow-y: auto;
+    height: 80vh
+}
+
+.playerlist .PlayerDisplay {
+    max-width: 80%;
+}
+
 .panel {
     width: 40vw;
     height: 70vh;

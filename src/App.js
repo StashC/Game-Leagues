@@ -24,6 +24,9 @@ export async function getPlayerData (id) {
 
 function App() {
   // const {currUser} = useContext(AuthContext)
+  const [userLeagues, setUserLeagues] = useState(null)
+
+  var selectLeagueComp = null
 
   //For setting the current LeagueID.
   const [currLeagueID, setCurrLeagueID] = useState("");
@@ -60,7 +63,7 @@ function App() {
     const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
     console.log(matches)
     return matches
-  }
+  } 
   
   useEffect(() => {
   getPlayers();
@@ -72,10 +75,27 @@ function App() {
     getLeagueName(currLeagueID);
   }, [currLeagueID])
 
+  if(userLeagues != null ) {
+    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem">
+      {userLeagues.empty ? <h3 id="createLeagueHint">Create a League to Get Started</h3> : null}
+      <select className="DashboardSelect" id="SelectCurrLeage"
+        onChange={(event) => {
+          setCurrLeagueID(event.target.value)}}
+        >
+        {userLeagues.map( (league) => {
+          return( <option value={league.id}> {league.leagueName} </option>)
+        })}
+      </select>
+    </div> //LeagueSelectContainer
+  } else {
+    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem"><p>loading...</p> </div>
+  }
+
   return(
     <AuthProvider>
       <Router>
-        <leagueContext.Provider value={{ players, setPlayers, currLeagueID, setCurrLeagueID, matchListRef, playersRef, getPlayers,  getMatchesForLeague}}>
+        <leagueContext.Provider value={{ players, setPlayers, currLeagueName, currLeagueID, setCurrLeagueID,
+         matchListRef, playersRef, getPlayers, userLeagues, setUserLeagues, getMatchesForLeague, selectLeagueComp}}>
           <div className="App">
             <NavBar leagueName={currLeagueName}/>
             <div className="body">
