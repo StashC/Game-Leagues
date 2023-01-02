@@ -1,5 +1,5 @@
 import '../App.css'
-import  {createContext, useContext, useState} from 'react'
+import { useContext, useState} from 'react'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
 import {auth} from '../firebase-config'
 import { useEffect } from 'react'
@@ -14,7 +14,7 @@ export const logout = async () => {
 function AuthPage(){
     const navigate = useNavigate();
 
-    const { setCurrLeagueID } = useContext(leagueContext) 
+    const { setCurrLeagueID } = useContext(leagueContext)
 
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
@@ -41,7 +41,6 @@ function AuthPage(){
             console.log(error.message + " | " + userEmail + " | " + userPassword);
         }
     }
-
 
     useEffect( () => {
         if(currUser != null)

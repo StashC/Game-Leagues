@@ -27,6 +27,7 @@ function App() {
   const [userLeagues, setUserLeagues] = useState(null)
 
   var selectLeagueComp = null
+  var navBar = null
 
   //For setting the current LeagueID.
   const [currLeagueID, setCurrLeagueID] = useState("");
@@ -91,13 +92,19 @@ function App() {
     selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem"><p>loading...</p> </div>
   }
 
+  if(currLeagueName !== ""){
+    navBar = <NavBar leagueName={currLeagueName}/>
+  } else {
+    navBar = null;
+  }
+
   return(
     <AuthProvider>
       <Router>
         <leagueContext.Provider value={{ players, setPlayers, currLeagueName, currLeagueID, setCurrLeagueID,
          matchListRef, playersRef, getPlayers, userLeagues, setUserLeagues, getMatchesForLeague, selectLeagueComp}}>
           <div className="App">
-            <NavBar leagueName={currLeagueName}/>
+            {navBar}
             <div className="body">
               <Routes>
                 <Route path="/login" element={<AuthPage />} />
