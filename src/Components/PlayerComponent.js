@@ -5,10 +5,10 @@ import './PlayerComponent.css';
 class PlayerCard extends React.Component {
     render(){
     return <div className="PlayerDisplay">
-                <img source={'/img/avatar.png'}
+                {/* <img source={'/img/avatar.png'}
                 alt="LOL"
                 height={30}
-                width={30}/>
+                width={30}/> */}
                 <h3>{this.props.name}</h3>
                 <div className="PlayerStats">
                     <h4>Rating: {this.props.elo} </h4>

@@ -1,13 +1,17 @@
 import './App.css';
 import React, {useState, useEffect, useContext, createContext} from 'react'
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, redirect} from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
 import MatchHistory from './Pages/MatchHistory';
 import Leaderboard from './Pages/Leaderboard';
-import {db} from './firebase-config.js';
+import {auth, db} from './firebase-config.js';
 import {collection, getDocs, addDoc, doc, updateDoc, getDoc, query, where} from 'firebase/firestore'; 
 import NavBar from './Components/NavBar';
-
+import AuthPage from './Pages/AuthPage';
+import { AuthContext, AuthProvider } from './Auth';
+import PrivateRoute from './PrivateRoute';
+import LoginPage from './Pages/LoginPage';
+import RegisterPage from './Pages/RegisterPage';
 
 // This is the main class, leave the necessary globals.
 // Pass any required state into the other routes
@@ -15,13 +19,20 @@ export const leagueContext = createContext({});
 
 export async function getPlayerData (id) {
   const playerRef = doc(db, "players", id);
-  const playerSnap = await getDoc(playerRef)
+  const playerSnap = await getDoc(playerRef);
   return playerSnap.data();
 };
 
+
 function App() {
+  // const {currUser} = useContext(AuthContext)
+  const [userLeagues, setUserLeagues] = useState(null)
+
+  var selectLeagueComp = null
+  var navBar = null
+
   //For setting the current LeagueID.
-  const [currLeagueID, setCurrLeagueID] = useState("48nZ6PosAQoERw4b09QS");
+  const [currLeagueID, setCurrLeagueID] = useState("");
   const [currLeagueName, setCurrLeagueName] = useState("")
   //for adding player to the list/db
   const [players, setPlayers] = useState([]);
@@ -32,43 +43,76 @@ function App() {
   //reference to leagues table
 
   const getLeagueName = async (leagueID) => {
-    const leaguesRef = doc(db, "leagues", leagueID);
-    const playerSnap = await getDoc(leaguesRef)
-    const leagueName = playerSnap.data()['leagueName']
-    console.log(leagueName)
+    const leagueRef = doc(db, "leagues", leagueID);
+    const leagueSnap = await getDoc(leagueRef)
+    const leagueName = leagueSnap.data()['leagueName']
+    // console.log(leagueName)
     setCurrLeagueName(leagueName);
   }
     
+
    // gets the list of players from the db
    const getPlayers = async () => {
-    const q = query(playersRef, where("leagueID", "==", "48nZ6PosAQoERw4b09QS"));
+    console.log("getPlayersCalled " + currLeagueID)
+    const q = query(playersRef, where("leagueID", "==", currLeagueID));
     const data = await getDocs(q)     // below creates a new doc, but replaces id with doc.id
     setPlayers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-  }  
+  }
+
+  // gets matches for curr league
+  const getMatchesForLeague = async (leagueID) => {
+    const q = query(matchListRef, where("leagueID", "==", leagueID));
+    const matchesDoc = await getDocs(q)
+    const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
+    console.log(matches)
+    return matches
+  } 
   
   useEffect(() => {
   getPlayers();
-  getLeagueName(currLeagueID);}, [])
+  }, [currLeagueID])
 
-    return(
+  useEffect(() => {
+    getLeagueName(currLeagueID);
+  }, [currLeagueID])
+
+  if(userLeagues != null ) {
+    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem">
+      {userLeagues.empty ? <h3 id="createLeagueHint">Create a League to Get Started</h3> : null}
+      <select className="DashboardSelect" id="SelectCurrLeage"
+        onChange={(event) => {
+          setCurrLeagueID(event.target.value)}}
+        >
+        {userLeagues.map( (league) => {
+          return( <option value={league.id}> {league.leagueName} </option>)
+        })}
+      </select>
+    </div> //LeagueSelectContainer
+  } else {
+    selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem"><p>loading...</p> </div>
+  }
+
+  return(
+    <AuthProvider>
       <Router>
-        <div className="App">
-          <NavBar leagueName={currLeagueName}/>
-          <div className="body">
-          <leagueContext.Provider value={{ players, setPlayers, currLeagueID, setCurrLeagueID, matchListRef }}>
-            <Routes>
-                <Route path="/" element={<Dashboard />}/>
-                <Route path="/matches" element={<MatchHistory />}/>
-                <Route path="/leaderboard" element={<Leaderboard />}></Route>
+        <leagueContext.Provider value={{ players, setPlayers, currLeagueName, currLeagueID, setCurrLeagueID,
+         matchListRef, playersRef, getPlayers, userLeagues, setUserLeagues, getMatchesForLeague, selectLeagueComp}}>
+          <div className="App">
+            { auth.currentUser == null ? null : <NavBar leagueName={currLeagueName}/>}
+            <div className="body">
+              <Routes>
+                <Route path="/login" element={<LoginPage/>} />
+                <Route path="/register" element={<RegisterPage/>} />
+                <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>}/>
+                <Route path="/matches" element={<PrivateRoute> <MatchHistory /> </PrivateRoute>}/>
+                <Route path="/leaderboard" element={<PrivateRoute> <Leaderboard/> </PrivateRoute>}></Route>
                 <Route path="*" element = {<div> <h1>Error Page</h1></div>} ></Route>
-              
-            </Routes>
-            </leagueContext.Provider>
+              </Routes>
+            </div>
           </div>
-
-        </div>
+        </leagueContext.Provider>
       </Router>
-
+    </AuthProvider>
   );
 }
 

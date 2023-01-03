@@ -1,0 +1,40 @@
+h1, h2 {
+    color: White;
+}
+
+.PlayerDisplay {
+    width: 40vw;
+}
+
+#leaderBoardComponent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#PodiumSecondRow {
+    display: flex;
+    flex-direction: row;
+}
+
+#FirstPlaceCard .PlayerDisplay {
+    background-color: gold;
+}
+
+#SecondPlaceCard .PlayerDisplay {
+    background-color: silver;
+}
+
+#ThirdPlaceCard .PlayerDisplay {
+    background-color: rgb(181, 107, 16);
+}
+
+#scrollableLeaderboard {
+    overflow-y: auto;
+    height: 80vh
+}
+
+.playerlist .PlayerDisplay {
+    max-width: 80%;
+}

@@ -1,0 +1,117 @@
+.form-card{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    background-color: #36393f;
+    width: 50%;
+    height: auto;
+    margin-top: 5vh;
+    max-width: 420px;
+    border-radius: 15px;
+    padding: 3% 3.2%;
+    box-sizing: border-box;
+}
+
+.form-card input{
+    width: 100%;
+    height: 24px;
+    color: rgb(210, 210, 210);
+    box-sizing: border-box;
+    background-color: #202225;
+    border-width: 0;
+    margin-bottom: 15px;
+}
+
+.form-card input:focus{
+
+}
+
+.form-card h2{
+    margin-bottom: 15px;
+    font-size: x-large;
+    color: white;
+}
+
+.form-card h4{
+    color: rgb(179, 179, 179);
+    margin-bottom: 2px;
+}
+
+.AuthPage {
+    background-color: #495fb5;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+
+.AuthPage h1{
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.large-button {
+    margin: 5px auto;
+    width: 50%;
+    height: 30px;
+    background-color: #6679c2;
+    border: none;
+    border-radius: 4px;
+    color: white    
+}
+
+.form-card p {
+    margin: 10px auto;
+    font-size: small;
+    color: #9da0a5;
+}
+
+button.link{
+    background: none;
+    border: none;
+    color: #415ed0
+}
+
+#resetPass{
+    margin-right: 0;
+    margin-bottom: 30px;
+}
+
+#login-password-input{
+    margin-bottom: 0px;
+}
+
+.AuthPage {
+    background: linear-gradient(0deg, #4c61b8, #3c73b3);
+    background-size: 400% 400%;
+
+    -webkit-animation: Background-Fade 29s ease infinite;
+    -moz-animation: Background-Fade 29s ease infinite;
+    -o-animation: Background-Fade 29s ease infinite;
+    animation: Background-Fade 29s ease infinite;
+}
+
+@-webkit-keyframes Background-Fade {
+    0%{background-position:51% 0%}
+    50%{background-position:50% 100%}
+    100%{background-position:51% 0%}
+}
+@-moz-keyframes Background-Fade {
+    0%{background-position:51% 0%}
+    50%{background-position:50% 100%}
+    100%{background-position:51% 0%}
+}
+@-o-keyframes Background-Fade {
+    0%{background-position:51% 0%}
+    50%{background-position:50% 100%}
+    100%{background-position:51% 0%}
+}
+@keyframes Background-Fade {
+    0%{background-position:51% 0%}
+    50%{background-position:50% 100%}
+    100%{background-position:51% 0%}
+}
