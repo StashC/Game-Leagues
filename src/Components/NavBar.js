@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import {} from '../App'
 import './NavBar.css'
 import { AiFillHome } from "react-icons/ai";
-import { logout } from '../Pages/AuthPage';
-
+import { logout } from '../Auth';
 class NavBar extends Component {
   render() {
     return (        

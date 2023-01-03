@@ -10,6 +10,8 @@ import NavBar from './Components/NavBar';
 import AuthPage from './Pages/AuthPage';
 import { AuthContext, AuthProvider } from './Auth';
 import PrivateRoute from './PrivateRoute';
+import LoginPage from './Pages/LoginPage';
+import RegisterPage from './Pages/RegisterPage';
 
 // This is the main class, leave the necessary globals.
 // Pass any required state into the other routes
@@ -68,8 +70,6 @@ function App() {
   
   useEffect(() => {
   getPlayers();
-  // redirect("/login")
-  // getLeagueName(currLeagueID);}, [currLeagueID, currUser])
   }, [currLeagueID])
 
   useEffect(() => {
@@ -92,22 +92,17 @@ function App() {
     selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem"><p>loading...</p> </div>
   }
 
-  if(currLeagueName !== ""){
-    navBar = <NavBar leagueName={currLeagueName}/>
-  } else {
-    navBar = null;
-  }
-
   return(
     <AuthProvider>
       <Router>
         <leagueContext.Provider value={{ players, setPlayers, currLeagueName, currLeagueID, setCurrLeagueID,
          matchListRef, playersRef, getPlayers, userLeagues, setUserLeagues, getMatchesForLeague, selectLeagueComp}}>
           <div className="App">
-            {navBar}
+            { auth.currentUser == null ? null : <NavBar leagueName={currLeagueName}/>}
             <div className="body">
               <Routes>
-                <Route path="/login" element={<AuthPage />} />
+                <Route path="/login" element={<LoginPage/>} />
+                <Route path="/register" element={<RegisterPage/>} />
                 <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>}/>
                 <Route path="/matches" element={<PrivateRoute> <MatchHistory /> </PrivateRoute>}/>
                 <Route path="/leaderboard" element={<PrivateRoute> <Leaderboard/> </PrivateRoute>}></Route>
