@@ -14,9 +14,10 @@ function Dashboard() {
   //for setting the name of the player to be added
   const [newName, setNewName] = useState("")
   const addPlayer = async () => {
-    console.log(playersRef)
-    console.log(currLeagueID)
-    console.log(newName)
+    if(currLeagueID == null || currLeagueID == ""){ 
+      console.log("Failed to create player, LeagueID is null or empty.  LeagueID: " + currLeagueID)
+      return
+    };
     await addDoc(playersRef, {name: newName, elo: 1000, wins: 0, losses: 0, leagueID: currLeagueID})
     //update player list
     getPlayers()
@@ -100,8 +101,7 @@ function Dashboard() {
     const q = query(leaguesRef, where("userID", "==", currUser.uid ))
     const data = await getDocs(q)
     const leagues = data.docs.map( (doc) => ({...doc.data(), id: doc.id}))
-    // console.log(leagues)
-    if(leagues.empty){
+    if(leagues.length == 0){
       setUserLeagues([]) 
       setCurrLeagueID("")
     } else {
@@ -112,7 +112,9 @@ function Dashboard() {
 
 
   useEffect(() => {
-    getLeagues()
+    if(currLeagueID == "" || currLeagueID == null){
+      getLeagues()
+    }
     }, [])
   
     return (

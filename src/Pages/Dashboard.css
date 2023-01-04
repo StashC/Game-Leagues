@@ -1,19 +1,31 @@
 .Dashboard {
     display: flex;
     flex-direction: row;
+    align-items: baseline;
 }
 
 .playerlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-y: auto;
     height: 80vh
 }
 
 .playerlist .PlayerDisplay {
     max-width: 80%;
+    align-items: center;
 }
 
 .panel {
     width: 40vw;
-    height: 70vh;
+    height: 80%;
     margin: 2vh 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+}
+
+#SelectCurrLeage {
+    min-width: 130px;
 }

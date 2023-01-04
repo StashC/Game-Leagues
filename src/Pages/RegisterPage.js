@@ -44,7 +44,7 @@ return(
                 onClick={handleRegister}>Register Account</button>
 
             <p>Have an account?     
-                <button class="link"
+                <button className='link'
                 onClick={() => {
                     console.log("clicked go to login")
                     navigate("/login")

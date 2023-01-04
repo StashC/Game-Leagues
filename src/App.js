@@ -1,13 +1,12 @@
 import './App.css';
-import React, {useState, useEffect, useContext, createContext} from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate, redirect} from 'react-router-dom';
+import React, {useState, useEffect, createContext} from 'react'
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
 import MatchHistory from './Pages/MatchHistory';
 import Leaderboard from './Pages/Leaderboard';
 import {auth, db} from './firebase-config.js';
 import {collection, getDocs, addDoc, doc, updateDoc, getDoc, query, where} from 'firebase/firestore'; 
 import NavBar from './Components/NavBar';
-import AuthPage from './Pages/AuthPage';
 import { AuthContext, AuthProvider } from './Auth';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from './Pages/LoginPage';
@@ -29,7 +28,6 @@ function App() {
   const [userLeagues, setUserLeagues] = useState(null)
 
   var selectLeagueComp = null
-  var navBar = null
 
   //For setting the current LeagueID.
   const [currLeagueID, setCurrLeagueID] = useState("");
@@ -43,6 +41,10 @@ function App() {
   //reference to leagues table
 
   const getLeagueName = async (leagueID) => {
+    if(leagueID == ""){
+      setCurrLeagueName("")
+      return;
+    }
     const leagueRef = doc(db, "leagues", leagueID);
     const leagueSnap = await getDoc(leagueRef)
     const leagueName = leagueSnap.data()['leagueName']
@@ -53,7 +55,7 @@ function App() {
 
    // gets the list of players from the db
    const getPlayers = async () => {
-    console.log("getPlayersCalled " + currLeagueID)
+    console.log("getPlayersCalled.  LeagueID: " + currLeagueID)
     const q = query(playersRef, where("leagueID", "==", currLeagueID));
     const data = await getDocs(q)     // below creates a new doc, but replaces id with doc.id
     setPlayers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
@@ -69,7 +71,7 @@ function App() {
   } 
   
   useEffect(() => {
-  getPlayers();
+    getPlayers();
   }, [currLeagueID])
 
   useEffect(() => {
@@ -79,10 +81,14 @@ function App() {
   if(userLeagues != null ) {
     selectLeagueComp = <div id="LeagueSelectContainer" className="DashboardItem">
       {userLeagues.empty ? <h3 id="createLeagueHint">Create a League to Get Started</h3> : null}
-      <select className="DashboardSelect" id="SelectCurrLeage"
+      <select className="DashboardSelect"
+        id="SelectCurrLeage"
+        placeholder='Select a League'
         onChange={(event) => {
           setCurrLeagueID(event.target.value)}}
+        defaultValue={currLeagueID}
         >
+        {currLeagueID == null || "" ? <option selected disabled hidden>Select League</option> : null }
         {userLeagues.map( (league) => {
           return( <option value={league.id}> {league.leagueName} </option>)
         })}

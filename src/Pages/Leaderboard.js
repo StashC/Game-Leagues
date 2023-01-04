@@ -76,8 +76,8 @@ function Leaderboard() {
   return (
     <div>
       <h1>Leaderboard</h1>
+      {selectLeagueComp}
       <h2 id="leagueNameDisplay"> {currLeagueName}</h2>
-        {selectLeagueComp}
         <div className='leaderboard'>
           {leaderBoardComponent}
         </div>

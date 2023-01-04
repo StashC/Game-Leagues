@@ -128,7 +128,9 @@ function AddMatchComponent() {
              </select>
             {playerOneCard}
         </div>
+        
         <h4 className="VsText">VS</h4>
+
         <div className="ChoosePlayer">
         <select className="PlayerSelect" name="PlayerTwoSelect" onChange={(e) => {updatePlayer(e.target.value, 2)}}>
           <option selected disabled hidden>Choose Player 2</option>
@@ -138,6 +140,7 @@ function AddMatchComponent() {
              </select>
             {playerTwoCard}
         </div>
+
         </div>
         <div id="bottom">
             <select className="PlayerSelect" name="VictorSelect" onChange={(e) => (setNewMatchVictor(e.target.value))}>

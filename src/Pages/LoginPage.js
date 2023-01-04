@@ -30,6 +30,21 @@ function LoginPage(){
             }
     }, [currUser])
 
+    //Add event listener to login using "Enter" key.
+    useEffect(() => {
+        const listener = event => {
+          if (event.code === "Enter" || event.code === "NumpadEnter") {
+            console.log("Enter key was pressed. Run your function.");
+            event.preventDefault();
+            handleLogin();
+          }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+          document.removeEventListener("keydown", listener);
+        };
+      }, []);
+
 return(
     <div className="AuthPage">
         <h1>Game Leagues</h1>
@@ -44,7 +59,7 @@ return(
                 onChange={(event) => {setUserPassword(event.target.value)}}/>
             
             <p id="resetPass">Forgot password? 
-                <button class="link"
+                <button className='link'
                 //onClick={}>
                 >Reset Password.</button> </p>
             
@@ -52,7 +67,7 @@ return(
                 onClick={handleLogin}> Sign In</button> 
 
             <p>Need an account? 
-                <button class="link"
+                <button className='link'
                 onClick={() => {
                     console.log("pressed")
                     navigate("/register")
