@@ -128,7 +128,7 @@ function AddMatchComponent() {
              </select>
             {playerOneCard}
         </div>
-        
+
         <h4 className="VsText">VS</h4>
 
         <div className="ChoosePlayer">
@@ -148,8 +148,8 @@ function AddMatchComponent() {
                 <option value={1}>Player 1</option>
                 <option value={2}>Player 2</option>
             </select>
-          <button onClick={addMatch}> Record Match </button>
-         </div>
+            <button onClick={addMatch}> Record Match </button>
+          </div>
         </div>
   )
 }

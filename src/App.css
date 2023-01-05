@@ -19,4 +19,23 @@ button{
   cursor: pointer;
 }
 
+select{
+  border-radius: 3px;
+}
+
+.DefaultInput{
+    width: 100%;
+    height: 24px;
+    border-radius: 3px;
+    color: rgb(210, 210, 210);
+    box-sizing: border-box;
+    background-color: #202225;
+    border-width: 0;
+    margin-bottom: 10px;
+}
+
+.DefaultInput:focus{
+  outline-color: rgb(80, 150, 255);
+  outline-style: solid;
+}
 

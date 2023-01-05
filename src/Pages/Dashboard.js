@@ -121,8 +121,20 @@ function Dashboard() {
       <div className="Dashboard">
         <div id="leftPanel" className="panel">
           <div id="leagueContainer">
-            <h3> Select League</h3>
-            {selectLeagueComp}
+            <div id="select-league-container">
+              <h3> Select League</h3> 
+              {selectLeagueComp}
+            </div>
+            <div id="createLeagueContainer">
+            <h3>Create League</h3>
+            <input className="DefaultInput" placeholder="EnterLeagueName"
+              onChange={(event) => {setNewLeagueName(event.target.value)}}/>
+
+            <button className="DashboardButton" id="createLeagueButton"
+              onClick={createLeague}>
+              Create League
+            </button>
+            </div>
           </div>
 
           {/* Players List goes here */}
@@ -138,27 +150,19 @@ function Dashboard() {
          </div>
       </div>
         <div id="rightPanel" className="panel">
-          <div id="createLeagueContainer">
-            <h3>Create League</h3>
-            <input className="DashboardInput" placeholder="EnterLeagueName"
-              onChange={(event) => {setNewLeagueName(event.target.value)}}/>
-
-            <button className="DashboardButton" id="createLeagueButton"
-              onClick={createLeague}>
-              Create League
-            </button>
-          </div>
+          
 
           <div id="addPlayer">
             <h3> Add Player </h3>
             <input
+              className="DefaultInput"
               placeholder="Name...." 
               onChange={(event) => {
                 setNewName(event.target.value)}} />
-              <button className="DashButton" onClick={addPlayer}> Add Player </button>
+              <button className="DashboardButton" onClick={addPlayer}> Add Player </button>
           </div>
-          <button className="DashButton" onClick={resetLeague}> Reset Scores</button>
-          <button className="DashButton"
+          <button className="DashboardButton" onClick={resetLeague}> Reset Scores</button>
+          <button className="DashboardButton"
            onClick={ () => {
             console.log("called")
             deleteLeague(currLeagueID)
