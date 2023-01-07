@@ -61,6 +61,10 @@
     color: white    
 }
 
+.large-button:hover{
+    background-color: #5a6bb1;
+}
+
 .form-card p {
     margin: 10px auto;
     font-size: small;

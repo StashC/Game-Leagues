@@ -18,6 +18,10 @@ function Dashboard() {
       console.log("Failed to create player, LeagueID is null or empty.  LeagueID: " + currLeagueID)
       return
     };
+    if(newName == "" || newName == null){
+      console.log("Failed to create player, name is an empty string or null.  New Name: " + newName)
+      return
+    }
     await addDoc(playersRef, {name: newName, elo: 1000, wins: 0, losses: 0, leagueID: currLeagueID})
     //update player list
     getPlayers()
@@ -127,7 +131,7 @@ function Dashboard() {
             </div>
             <div id="createLeagueContainer">
             <h3>Create League</h3>
-            <input className="DefaultInput" placeholder="EnterLeagueName"
+            <input className="DefaultInput" placeholder="Enter league name"
               onChange={(event) => {setNewLeagueName(event.target.value)}}/>
 
             <button className="DashboardButton" id="createLeagueButton"
