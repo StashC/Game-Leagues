@@ -107,11 +107,11 @@ function App() {
             { auth.currentUser == null ? null : <NavBar leagueName={currLeagueName}/>}
             <div className="body">
               <Routes>
-                <Route path="/login" element={<LoginPage/>} />
-                <Route path="/register" element={<RegisterPage/>} />
-                <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>}/>
-                <Route path="/matches" element={<PrivateRoute> <MatchHistory /> </PrivateRoute>}/>
-                <Route path="/leaderboard" element={<PrivateRoute> <Leaderboard/> </PrivateRoute>}></Route>
+                <Route path="/Game-Leagues/login" element={<LoginPage/>} />
+                <Route path="/Game-Leagues/register" element={<RegisterPage/>} />
+                <Route path="/Game-Leagues/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>}/>
+                <Route path="/Game-Leagues/matches" element={<PrivateRoute> <MatchHistory /> </PrivateRoute>}/>
+                <Route path="/Game-Leagues/leaderboard" element={<PrivateRoute> <Leaderboard/> </PrivateRoute>}></Route>
                 <Route path="*" element = {<div> <h1>Error Page</h1></div>} ></Route>
               </Routes>
             </div>

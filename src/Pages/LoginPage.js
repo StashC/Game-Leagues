@@ -26,7 +26,7 @@ function LoginPage(){
         if(currUser != null)
             if(currUser.email != "" || currUser.email != null){
                 console.log(currUser.email)
-                navigate("/")
+                navigate("/Game-Leagues/")
             }
     }, [currUser])
 

@@ -21,6 +21,6 @@ const PrivateRoute = ({ children }) => {
     const {currUser} = useContext(AuthContext)
 
     
-    return currUser ? children : <Navigate to="/login" />;
+    return currUser ? children : <Navigate to="/Game-Leagues/login" />;
   }
 export default PrivateRoute
