@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Game-Leagues/static/css/main.308d8a1b.css",
+    "main.js": "/Game-Leagues/static/js/main.c8367194.js",
+    "static/js/787.28cb0dcd.chunk.js": "/Game-Leagues/static/js/787.28cb0dcd.chunk.js",
+    "index.html": "/Game-Leagues/index.html",
+    "main.308d8a1b.css.map": "/Game-Leagues/static/css/main.308d8a1b.css.map",
+    "main.c8367194.js.map": "/Game-Leagues/static/js/main.c8367194.js.map",
+    "787.28cb0dcd.chunk.js.map": "/Game-Leagues/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.308d8a1b.css",
+    "static/js/main.c8367194.js"
+  ]
+}
