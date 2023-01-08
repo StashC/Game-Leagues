@@ -42,7 +42,6 @@ function MatchHistory() {
   if(Array.isArray(leagueMatches)) {
     matchListComp = <div id='match-list-container'>
       {leagueMatches.map( (match) => {
-        console.log(match)
         if(match.victorID == 1) {
           const winner = getPlayerDataFromList(match.playerOneID)
           const oldEloWinner = match.oldEloPlayer1

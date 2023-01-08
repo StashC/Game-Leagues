@@ -48,14 +48,13 @@ function App() {
     const leagueRef = doc(db, "leagues", leagueID);
     const leagueSnap = await getDoc(leagueRef)
     const leagueName = leagueSnap.data()['leagueName']
-    // console.log(leagueName)
     setCurrLeagueName(leagueName);
   }
     
 
    // gets the list of players from the db
    const getPlayers = async () => {
-    console.log("getPlayersCalled.  LeagueID: " + currLeagueID)
+    //console.log("getPlayersCalled.  LeagueID: " + currLeagueID)
     const q = query(playersRef, where("leagueID", "==", currLeagueID));
     const data = await getDocs(q)     // below creates a new doc, but replaces id with doc.id
     setPlayers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
@@ -66,7 +65,6 @@ function App() {
     const q = query(matchListRef, where("leagueID", "==", leagueID));
     const matchesDoc = await getDocs(q)
     const matches = matchesDoc.docs.map((doc) => ({...doc.data(), id: doc.id}))
-    console.log(matches)
     return matches
   } 
   

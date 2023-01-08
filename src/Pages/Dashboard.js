@@ -15,7 +15,7 @@ function Dashboard() {
   const [newName, setNewName] = useState("")
   const addPlayer = async () => {
     if(currLeagueID == null || currLeagueID == ""){ 
-      console.log("Failed to create player, LeagueID is null or empty.  LeagueID: " + currLeagueID)
+      console.log("Failed to create player, LeagueID is null or empty.")
       return
     };
     if(newName == "" || newName == null){
@@ -43,13 +43,10 @@ function Dashboard() {
   }
 
   //TODO add Popup
-  const deleteLeague = async (id) => {
-    console.log("deletedLeague called")
-   
+  const deleteLeague = async (id) => {   
     //delete matches.  Before players is most likely a better Idea,
     // as matches can reference players, but not vice versa. 
     const matchesToDelete = await getMatchesForLeague(id)
-    console.log(matchesToDelete)
     
     await matchesToDelete.map( async (match) => {
       const matchRef = doc(db, "match history", match.id)
@@ -168,7 +165,6 @@ function Dashboard() {
           <button className="DashboardButton" onClick={resetLeague}> Reset Scores</button>
           <button className="DashboardButton"
            onClick={ () => {
-            console.log("called")
             deleteLeague(currLeagueID)
             }}
             > Delete League</button>

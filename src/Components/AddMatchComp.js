@@ -49,7 +49,6 @@ function AddMatchComponent() {
     }
 
     const addMatch = async () => {    
-        console.log("vbictor asdasdas: " + newMatchVictor)
         //ToDo add score functionality, and inputs for score
         const player1Data = await getPlayerData(newMatchPlayer1)
         const player2Data = await getPlayerData(newMatchPlayer2)
@@ -108,7 +107,6 @@ function AddMatchComponent() {
       const updatePlayerRecord = async (id, winAdjust, lossAdjust, eloAdjust) => {
         const playerRef = doc(db, "players", id);
         const playerData = await getPlayerData(id)
-        console.log(playerData);
         const newFields = {
            wins: playerData["wins"] + winAdjust,
            losses: playerData["losses"] + lossAdjust,

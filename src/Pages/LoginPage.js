@@ -25,7 +25,6 @@ function LoginPage(){
     useEffect( () => {
         if(currUser != null)
             if(currUser.email != "" || currUser.email != null){
-                console.log(currUser.email)
                 navigate("/Game-Leagues/")
             }
     }, [currUser])
@@ -34,9 +33,9 @@ function LoginPage(){
     useEffect(() => {
         const listener = event => {
           if (event.code === "Enter" || event.code === "NumpadEnter") {
-            console.log("Enter key was pressed. Run your function.");
+            //console.log("Enter key pressed.");
             event.preventDefault();
-            handleLogin();
+            //handleLogin();
           }
         };
         document.addEventListener("keydown", listener);
@@ -69,7 +68,6 @@ return(
             <p>Need an account? 
                 <button className='link'
                 onClick={() => {
-                    console.log("pressed")
                     navigate("/register")
                 }}> Register.</button> </p>
         </div>
