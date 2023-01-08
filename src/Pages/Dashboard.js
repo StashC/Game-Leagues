@@ -14,9 +14,14 @@ function Dashboard() {
   //for setting the name of the player to be added
   const [newName, setNewName] = useState("")
   const addPlayer = async () => {
-    console.log(playersRef)
-    console.log(currLeagueID)
-    console.log(newName)
+    if(currLeagueID == null || currLeagueID == ""){ 
+      console.log("Failed to create player, LeagueID is null or empty.")
+      return
+    };
+    if(newName == "" || newName == null){
+      console.log("Failed to create player, name is an empty string or null.  New Name: " + newName)
+      return
+    }
     await addDoc(playersRef, {name: newName, elo: 1000, wins: 0, losses: 0, leagueID: currLeagueID})
     //update player list
     getPlayers()
@@ -38,13 +43,10 @@ function Dashboard() {
   }
 
   //TODO add Popup
-  const deleteLeague = async (id) => {
-    console.log("deletedLeague called")
-   
+  const deleteLeague = async (id) => {   
     //delete matches.  Before players is most likely a better Idea,
     // as matches can reference players, but not vice versa. 
     const matchesToDelete = await getMatchesForLeague(id)
-    console.log(matchesToDelete)
     
     await matchesToDelete.map( async (match) => {
       const matchRef = doc(db, "match history", match.id)
@@ -100,8 +102,7 @@ function Dashboard() {
     const q = query(leaguesRef, where("userID", "==", currUser.uid ))
     const data = await getDocs(q)
     const leagues = data.docs.map( (doc) => ({...doc.data(), id: doc.id}))
-    // console.log(leagues)
-    if(leagues.empty){
+    if(leagues.length == 0){
       setUserLeagues([]) 
       setCurrLeagueID("")
     } else {
@@ -112,15 +113,29 @@ function Dashboard() {
 
 
   useEffect(() => {
-    getLeagues()
+    if(currLeagueID == "" || currLeagueID == null){
+      getLeagues()
+    }
     }, [])
   
     return (
       <div className="Dashboard">
         <div id="leftPanel" className="panel">
           <div id="leagueContainer">
-            <h3> Select League</h3>
-            {selectLeagueComp}
+            <div id="select-league-container">
+              <h3> Select League</h3> 
+              {selectLeagueComp}
+            </div>
+            <div id="createLeagueContainer">
+            <h3>Create League</h3>
+            <input className="DefaultInput" placeholder="Enter league name"
+              onChange={(event) => {setNewLeagueName(event.target.value)}}/>
+
+            <button className="DashboardButton" id="createLeagueButton"
+              onClick={createLeague}>
+              Create League
+            </button>
+            </div>
           </div>
 
           {/* Players List goes here */}
@@ -136,29 +151,20 @@ function Dashboard() {
          </div>
       </div>
         <div id="rightPanel" className="panel">
-          <div id="createLeagueContainer">
-            <h3>Create League</h3>
-            <input className="DashboardInput" placeholder="EnterLeagueName"
-              onChange={(event) => {setNewLeagueName(event.target.value)}}/>
-
-            <button className="DashboardButton" id="createLeagueButton"
-              onClick={createLeague}>
-              Create League
-            </button>
-          </div>
+          
 
           <div id="addPlayer">
             <h3> Add Player </h3>
             <input
+              className="DefaultInput"
               placeholder="Name...." 
               onChange={(event) => {
                 setNewName(event.target.value)}} />
-              <button className="DashButton" onClick={addPlayer}> Add Player </button>
+              <button className="DashboardButton" onClick={addPlayer}> Add Player </button>
           </div>
-          <button className="DashButton" onClick={resetLeague}> Reset Scores</button>
-          <button className="DashButton"
+          <button className="DashboardButton" onClick={resetLeague}> Reset Scores</button>
+          <button className="DashboardButton"
            onClick={ () => {
-            console.log("called")
             deleteLeague(currLeagueID)
             }}
             > Delete League</button>

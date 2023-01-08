@@ -25,10 +25,24 @@ function LoginPage(){
     useEffect( () => {
         if(currUser != null)
             if(currUser.email != "" || currUser.email != null){
-                console.log(currUser.email)
-                navigate("/")
+                navigate("/Game-Leagues/")
             }
     }, [currUser])
+
+    //Add event listener to login using "Enter" key.
+    useEffect(() => {
+        const listener = event => {
+          if (event.code === "Enter" || event.code === "NumpadEnter") {
+            //console.log("Enter key pressed.");
+            event.preventDefault();
+            //handleLogin();
+          }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+          document.removeEventListener("keydown", listener);
+        };
+      }, []);
 
 return(
     <div className="AuthPage">
@@ -44,7 +58,7 @@ return(
                 onChange={(event) => {setUserPassword(event.target.value)}}/>
             
             <p id="resetPass">Forgot password? 
-                <button class="link"
+                <button className='link'
                 //onClick={}>
                 >Reset Password.</button> </p>
             
@@ -52,9 +66,8 @@ return(
                 onClick={handleLogin}> Sign In</button> 
 
             <p>Need an account? 
-                <button class="link"
+                <button className='link'
                 onClick={() => {
-                    console.log("pressed")
                     navigate("/register")
                 }}> Register.</button> </p>
         </div>

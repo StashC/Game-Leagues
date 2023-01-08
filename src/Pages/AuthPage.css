@@ -22,9 +22,6 @@
     margin-bottom: 15px;
 }
 
-.form-card input:focus{
-
-}
 
 .form-card h2{
     margin-bottom: 15px;
@@ -62,6 +59,10 @@
     border: none;
     border-radius: 4px;
     color: white    
+}
+
+.large-button:hover{
+    background-color: #5a6bb1;
 }
 
 .form-card p {

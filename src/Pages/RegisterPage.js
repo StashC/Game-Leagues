@@ -23,7 +23,6 @@ function RegisterPage(){
     useEffect( () => {
         if(currUser != null)
             if(currUser.email != "" || currUser.email != null){
-                console.log(currUser.email)
                 navigate("/")
             }
     }, [currUser])
@@ -44,7 +43,7 @@ return(
                 onClick={handleRegister}>Register Account</button>
 
             <p>Have an account?     
-                <button class="link"
+                <button className='link'
                 onClick={() => {
                     console.log("clicked go to login")
                     navigate("/login")

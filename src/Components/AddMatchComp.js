@@ -49,7 +49,6 @@ function AddMatchComponent() {
     }
 
     const addMatch = async () => {    
-        console.log("vbictor asdasdas: " + newMatchVictor)
         //ToDo add score functionality, and inputs for score
         const player1Data = await getPlayerData(newMatchPlayer1)
         const player2Data = await getPlayerData(newMatchPlayer2)
@@ -108,7 +107,6 @@ function AddMatchComponent() {
       const updatePlayerRecord = async (id, winAdjust, lossAdjust, eloAdjust) => {
         const playerRef = doc(db, "players", id);
         const playerData = await getPlayerData(id)
-        console.log(playerData);
         const newFields = {
            wins: playerData["wins"] + winAdjust,
            losses: playerData["losses"] + lossAdjust,
@@ -128,7 +126,9 @@ function AddMatchComponent() {
              </select>
             {playerOneCard}
         </div>
+
         <h4 className="VsText">VS</h4>
+
         <div className="ChoosePlayer">
         <select className="PlayerSelect" name="PlayerTwoSelect" onChange={(e) => {updatePlayer(e.target.value, 2)}}>
           <option selected disabled hidden>Choose Player 2</option>
@@ -138,6 +138,7 @@ function AddMatchComponent() {
              </select>
             {playerTwoCard}
         </div>
+
         </div>
         <div id="bottom">
             <select className="PlayerSelect" name="VictorSelect" onChange={(e) => (setNewMatchVictor(e.target.value))}>
@@ -145,8 +146,8 @@ function AddMatchComponent() {
                 <option value={1}>Player 1</option>
                 <option value={2}>Player 2</option>
             </select>
-          <button onClick={addMatch}> Record Match </button>
-         </div>
+            <button onClick={addMatch}> Record Match </button>
+          </div>
         </div>
   )
 }

@@ -9,9 +9,8 @@ export const AuthContext = React.createContext();
 export const login = async (email, password) => {
   try{
       const curUser = await signInWithEmailAndPassword(auth, email, password);
-      console.log(curUser)
   } catch (error) {
-      console.log(error.message + " | " + email + " | " + password);
+      //console.log(error.message + " | " + email + " | " + password);
   }
 }
 
@@ -22,10 +21,9 @@ export const logout = async () => {
 export const register = async (email, password) => {
   try {
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(newUser)
       //redirect to login by changing authpage state
   } catch (error) {
-      console.log(error.message + " | " + email + " | " + password);
+      //console.log(error.message + " | " + email + " | " + password);
   }
 }
 

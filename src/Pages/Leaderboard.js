@@ -9,18 +9,15 @@ function Leaderboard() {
 
   const [leaderBoardComponent, setLeaderBoard] = useState(<div></div>)
   const sortPlayers = () => {
-    console.log(players)
     var list = players
     list.sort(function(a, b){
       return (b.elo - a.elo);
     })
-    console.log(list)
     return list
   }
 
   const updateLeaderBoard = () => {
     const sortedPlayers = sortPlayers()
-    console.log(sortedPlayers)
     setLeaderBoard(<div id="leaderBoardComponent">
       <div id="podiumFirstRow">
         { sortedPlayers[0] != null ?
@@ -76,8 +73,8 @@ function Leaderboard() {
   return (
     <div>
       <h1>Leaderboard</h1>
+      {selectLeagueComp}
       <h2 id="leagueNameDisplay"> {currLeagueName}</h2>
-        {selectLeagueComp}
         <div className='leaderboard'>
           {leaderBoardComponent}
         </div>
